@@ -17,7 +17,6 @@ def add_csv(request):
 
     f = 0
     list_of_images = []
-    Teachers.objects.all().delete()
     if request.method == 'POST':
         csv_file=request.FILES["csv_file"]
         if not csv_file.name.endswith('.csv'):
