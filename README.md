@@ -2,7 +2,10 @@
 
 Clone the project 
 
-install required dependencies
+install
+Django==3.1.5
+
+Pillow==8.1.0
 
 run python manage.py migrate 
 
