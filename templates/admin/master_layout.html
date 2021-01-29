@@ -1,0 +1,241 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Event management</title>
+    
+    <link rel="stylesheet" id="css-main" href="{% static "css\dashmix.css" %}">
+    <link rel="stylesheet" id="css-main" href="{% static "css\main.css" %}">
+    <link rel="stylesheet" id="css-main" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static "js/dashmix.core.min.js" %}"></script>
+    <script src="{% static "js/dashmix.app.min.js" %} "></script>
+    <link rel="stylesheet" href="{% static "css\jquery-ui.css" %}">
+    <script src="{% static "js/jquery-ui.js" %} "></script>
+    <link rel="stylesheet" href="{% static "js/select2/css/select2.min.css" %}">
+    <script src="{% static "js/select2/js/select2.full.min.js" %} "></script>
+    <script src="{% static "js/bootstrap-notify.min.js" %}"></script>
+    <script>
+        jQuery(function () { Dashmix.helpers(['select2']); });
+    </script>
+    {% if messages %}
+    {% for message in messages %}
+    <script>
+        jQuery(function () {
+            messageIcon = 'fa fa-check mr-1';
+            messageType = "{{message.tags}}"
+            if (messageType == 'error') {
+                messageType = 'danger';
+                messageIcon = 'far fa-times-circle fa-1x';
+            } else {
+                messageType = 'success';
+            }
+            Dashmix.helpers('notify', { type: messageType, align: 'center', icon: messageIcon, message: "{{ message }}" });
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+
+    <link rel="shortcut icon" href="{% static "images\favicon.ico" %}">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+             * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+
+
+        .form-group label.error {
+            color: red;
+            list-style: none;
+            font-size: 15px;
+        }
+
+
+
+        .button-wrapper {
+            margin-bottom: 20px;
+            float: right;
+        }
+
+        .form-group label {
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .content-heading {
+            margin-bottom: 20px;
+        }
+
+        .content {
+            padding: 0 !important;
+        }
+
+
+        .m-0 {
+            margin: 0 !important;
+        }
+
+        .clsaddress {
+            margin-bottom: 0 !important;
+            width: 220px;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* Loader */
+
+        /* ALL LOADERS */
+        .fade-bg {
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            background-color: #fff;
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 9999;
+        }
+
+        .loader {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -20px;
+            margin-top: -20px;
+            z-index: 99999;
+        }
+
+        #loader-6 span {
+            display: inline-block;
+            width: 5px;
+            height: 20px;
+            background-color: #651944;
+        }
+
+        #loader-6 span:nth-child(1) {
+            animation: grow 1s ease-in-out infinite;
+        }
+
+        #loader-6 span:nth-child(2) {
+            animation: grow 1s ease-in-out 0.15s infinite;
+        }
+
+        #loader-6 span:nth-child(3) {
+            animation: grow 1s ease-in-out 0.30s infinite;
+        }
+
+        #loader-6 span:nth-child(4) {
+            animation: grow 1s ease-in-out 0.45s infinite;
+        }
+
+        @keyframes grow {
+
+            0%,
+            100% {
+                -webkit-transform: scaleY(1);
+                -ms-transform: scaleY(1);
+                -o-transform: scaleY(1);
+                transform: scaleY(1);
+            }
+
+            50% {
+                -webkit-transform: scaleY(1.8);
+                -ms-transform: scaleY(1.8);
+                -o-transform: scaleY(1.8);
+                transform: scaleY(1.8);
+            }
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader hide" id="loader-6">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="fade-bg hide"></div>
+
+
+
+    <div id="page-container"
+        class="sidebar-o enable-page-overlay side-scroll page-header-fixed page-header-dark main-content-narrow">
+        {% include "admin/top_menu.html" %}
+        <!-- Main Container -->
+        <main id="main-container">
+            {% block main_content %}
+
+            {% endblock main_content %}
+        </main>
+        <!-- END Main Container -->
+        {% include "admin/footer.html" %}
+
+
+    </div>
+    <!-- END Page Container -->
+
+    <script>
+    $(".quick_like").on('click',function(){
+        var el=$(this);
+
+      $.ajax({
+        url: $(this).attr("data-url"),
+        success: function(data) {
+            var json = $.parseJSON(data);
+            $("#count_"+json[0].post_id).html(json[0].count);
+                if (json[0].like_status==1){
+                    el.addClass("liked");
+                }
+                else{
+
+                    el.removeClass("liked");
+                }
+               }
+      });
+    });
+    $("#upload").on("change", function(){
+        readURL(this);
+    });
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $('#showVideo').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+            $('#showVideo').show();
+        }
+    }
+    </script>
+    <script>
+        $("#upload_button").on('click',function(){
+          
+            if ($('#upload').get(0).files.length === 0) 
+            {
+                alert("please add an image");
+            }
+        });
+
+    </script>
+</body>
+
+</html>

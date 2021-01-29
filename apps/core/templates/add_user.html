@@ -1,0 +1,57 @@
+{% extends "admin/master_layout.html" %}
+
+{% block main_content %}
+<!-- Hero -->
+<div class="bg-body-light">
+    <div class="content content-full">
+        <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
+            <h1 class="flex-sm-fill font-size-h4 font-w400 mt-2 mb-0 mb-sm-2">Add/Edit User</h1>
+            <!-- <nav class="flex-sm-00-auto ml-sm-3" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Forms</li>
+                    <li class="breadcrumb-item active" aria-current="page">Elements</li>
+                </ol>
+            </nav> -->
+        </div>
+    </div>
+</div>
+<!-- END Hero -->
+<div class="content">
+    <!-- Elements -->
+    <div class="block block-rounded block-bordered">
+        <div class="block-content signupFormContainer">
+            <form method="post" id=myform>
+                <div class="row">
+                {% csrf_token %}
+                {% for field in form_user_master %}
+                    <div class="formGroupWrapper">
+                        <div class="form-group">
+                            {{ field.label_tag }} {{ field }}
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for field in form_user_detail %}
+                    <div class="formGroupWrapper">
+                        <div class="form-group">
+                            {{ field.label_tag }} {{ field }}
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+                <div class="button-wrapper">
+                    {% if not request.session.USER_NAME %}
+                <a href="{% url 'Renders Login Page' %}">
+                    {%else%}
+                    <a href="{% url 'user_home' %}">
+                    {% endif %}
+                    <button type="button" class="btn btn-hero-sm btn-hero-secondary">Back</button>
+                </a>
+                <button type="submit" class="btn btn-hero-sm btn-hero-success" id="but" >Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

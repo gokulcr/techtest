@@ -1,0 +1,86 @@
+{% extends "admin/master_layout.html" %}
+{% load static %}
+{% block main_content %}
+    <div class="mainInnerWrapper">
+        <div class="text-center cover-container">
+            <a href="#">
+                <img src="{% static "images\nodpimage.jpg" %}">
+            </a>
+            <h1 class="profile-name">{{ request.session.USER_NAME }}</h1>
+            <p class="user-text">college managent portal</p>
+        </div>
+<div class="block block-rounded block-bordered">
+    <div class="block-header block-header-default">
+        <h3 class="block-title">Student detail</h3>
+        {% if request.session.IS_SUPER_USER%}
+        <h3 class="block-title"><a href="{% url 'cv_add' %}"><button>upload using cv</button></a></h3>
+        {% endif %}
+        <div class="block-options">
+            <div class="block-options-item">
+                <form method="get">
+                    {% csrf_token %}
+                  <input type="text" name="subject_query" placeholder="search for subjects" />
+                  <input type="text" name="name_query" placeholder="search for last name" />
+                  <input type="submit" class="btn btn-success" value="Search">
+                </form>
+                </div>
+                </div>
+            </div>
+       
+    <div class="block-content">        
+        <table class="table table-hover table-vcenter">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 50px;">#</th>
+                    <th>First name</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Last name</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Mobile</th>
+                    <th class="d-none d-sm-table-cell" style="width: 15%;">Email</th>
+                    <th class="d-none d-sm-table-cell" style="width: 10%;">Room number</th>
+                    <th class="d-none d-sm-table-cell" style="width: 10%;">subjects</th>
+                    <th class="text-center" style="width: 300px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}                
+                <tr>
+                    <td class="text-center" scope="row">
+                        {{forloop.counter}}
+                    </td>
+                    <td>
+                        <a href=""> {{teacher.first_name}}</a>
+                    </td>
+                    <td>
+                        {{teacher.last_name}}
+                    </td>
+                    <td>
+                        {{teacher.phone}}
+                    <td>
+                        {{teacher.email}}
+                    </td>
+                    <td>
+                        {{teacher.room_number}}
+                    </td>
+                    <td>
+                        {{teacher.subjects}}
+                    </td>
+                    {% if request.session.IS_SUPER_USER %}
+                    {% endif %}
+                    <td class="text-center">
+                        <div class="btn-group">
+                            <a href="{% url 'detail_user' %}/{{teacher.id}}">
+                            <button type="button" class="btn btn-sm btn-outline-info" data-toggle="view" title="view">
+                                <i class="fa fa-eye"></i>
+                            </button>&nbsp;
+                           
+                        </div>
+                    </td>
+                </tr> 
+            {%endfor %}
+               
+                    
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "admin/master_layout.html" %}
+{% load static %}
+{% block main_content %}
+    <div class="mainInnerWrapper">
+        <div class="text-center cover-container">
+            <a href="#">
+                <img src="{% static "images\nodpimage.jpg" %}">
+            </a>
+            <h1 class="profile-name">{{ request.session.USER_NAME }}</h1>
+            <p class="user-text">college managent portal</p>
+        </div>
+        <!-- left content-->
+        <div class="leftMenuWrapper">
+              
+            <div class="profile-nav">
+
+                <div class="panel">
+
+                  <ul class="nav nav-pills nav-stacked">
+
+                      <li class="active"><a href="{% url 'user_home' %}"> <i class="fa fa-user"></i> Home</a></li>
+
+                      <!-- <li><a href="about.html"> <i class="fa fa-info-circle"></i> About</a></li> -->
+                  </ul>
+
+                </div>
+
+            </div>
+
+
+        </div><!-- end left content-->
+
+  <div class="">
+            <div class="FeedWrapper">
+                <form method="post" enctype="multipart/form-data" action="#">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-xl-12 feedUploadInnerWrapper">
+                            <div class="form-group">
+                           
+                                    <div class="">
+                                            {{ csvform.as_p }}
+                                        </div>
+                                    </div>
+                         
+                            </div>
+                            <input type="submit" name="upload_button" id="upload_button" value="Post"/>
+                        </div>
+                    </div>
+                </form>
+{% endblock %}

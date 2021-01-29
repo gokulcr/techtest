@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Stylesheets -->
+    <!-- Fonts and Dashmix framework -->
+    <link rel="shortcut icon" href="{% static "images\favicon.ico" %}">
+    <link rel="stylesheet" id="css-main" href="{% static 'css/dashmix.css' %}">
+
+    <title>Event management</title>
+    <style>   
+    .messag{
+        padding-left: 0;
+    }   
+       .messag .error{
+            color: red;
+            list-style: none;
+            text-align: center;
+            font-size: 15px;
+        }
+        .messag .success{
+            color: green;
+            list-style: none;
+            text-align: center;
+            font-size: 15px;
+        }
+      </style>
+</head>
+<body>
+    <div id="page-container">
+
+        <!-- Main Container -->
+        <main id="main-container">  
+
+            {% block content %}  {% endblock%}
+
+    </main>
+  </div>
+
+  <script src="{% static 'js/dashmix.core.min.js' %}"></script>
+  <script src="{% static 'js/dashmix.app.min.js' %}"></script>
+  <link rel="stylesheet" id="css-main" href="{% static "css\main.css" %}">
+  <script src="{% static "js/bootstrap-notify.min.js" %}"></script>
+  <!-- Page JS Plugins -->
+  <!-- Page JS Helpers (jQuery Sparkline Plugin) -->
+  <script>jQuery(function(){ Dashmix.helpers(['sparkline']); });</script>
+  <script>
+  $(document).ready(function() {
+    
+    setTimeout(function() {
+        $('.messag').fadeOut('slow');
+    }, 10000);
+
+   
+    $('.del-msg').click(function(){
+        $('.del-msg').parent().attr('style', 'display:none;');
+    })
+});
+</script>
+{% if messages %}
+{% for message in messages %}
+  <script> 
+  jQuery(function(){
+  messageIcon = 'fa fa-check mr-1';
+  messageType = "{{ message.tags }}"
+  if(messageType!='success'){
+    messageType = 'danger';
+    messageIcon = 'far fa-times-circle fa-1x';
+  }
+   Dashmix.helpers('notify', { type: messageType, align: 'center', icon: messageIcon, message: "{{ message }}" });
+});
+   </script> 
+{% endfor %}
+{% endif %} 
+</body>
+</html>

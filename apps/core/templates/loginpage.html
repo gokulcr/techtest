@@ -1,0 +1,44 @@
+{% extends 'base_login.html' %} {% block content %} {% load static %}
+<!-- Page Content -->
+<div class="row no-gutters justify-content-center bg-body-dark">
+    <div class="hero-static col-sm-4 col-md-4 col-xl-4 d-flex align-items-center p-2 px-sm-0">
+        <!-- Sign In Block -->
+        <div class="block block-rounded block-transparent block-fx-pop w-100 mb-0 overflow-hidden bg-image">
+            <div class="row no-gutters">
+                <div class="col-md-12 order-md-1 bg-white">
+                    <div class="block-content block-content-full px-lg-5 py-md-5 py-lg-6">
+                        <!-- Header -->
+                        <div class="mb-2 text-center">
+                            <img src="{% static "images\prism.png" %}" alt="logo" style="width:150px;height:auto">
+                            <div class="siteNameHead">Event System</div>
+                            <p>&nbsp;</p>
+                        </div>
+                        <!-- END Header -->
+                        <form class="js-validation-signin" method="post" action="#">
+                            {% csrf_token %}
+                            <div class="error">{{ form_login.non_field_errors }}</div>
+                            <div class="form-group">
+                                {{ form_login.username }}
+                                <div class="error">{{ form_login.email.errors.as_text  }}</div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_login.password }}
+                                <div class="error">{{ form_login.password.errors.as_text  }}</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Sign In" class="btn btn-block btn-hero-primary signinBtn">
+
+                            </div>
+                            <div class="form-group">
+                                <a href="{% url 'signup' %}" >Signup</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Sign In Block -->
+    </div>
+</div>
+<!-- END Page Content -->
+{% endblock %}

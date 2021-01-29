@@ -1,0 +1,22 @@
+{% extends "admin/master_layout.html" %}
+{% load static %}
+{% block main_content %}
+    <div class="mainInnerWrapper">
+        <div class="text-center cover-container">
+            <a href="#">
+                <img src="{% static "images\nodpimage.jpg" %}">
+            </a>
+            <h1 class="profile-name">{{ request.session.USER_NAME }}</h1>
+            <p class="user-text">college managent portal</p>
+        </div>
+        {% for field in form %}
+        <div class="col-xl-12">
+            <div class="form-group">
+        {{ field.label_tag }} {{ field }} {{ field.errors }}
+</div>
+</div>
+{% endfor %} 
+<div class="button-wrapper">
+<a href="{% url 'user_home' %}"><button>Back</button></a>
+</div>
+{% endblock %}
