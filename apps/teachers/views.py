@@ -11,7 +11,6 @@ from django.views import generic
 
 from . forms import CsvFileForm, TeacherForm
 from .models import Teachers
-from django.http import HttpResponse
 
 def add_csv(request):
     """ Endpoint for adding csv file """
